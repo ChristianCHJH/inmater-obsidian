@@ -1,39 +1,38 @@
-# Índice: Traces - Capa Backend
+# Índice: Backend Traces
 
-## 📋 Archivos en esta carpeta
+**Última actualización:** 2026-04-13
+**Total de traces:** 1
+**Estado:** 🟢 Actualizado
 
-Investigaciones de APIs, controllers, servicios, y lógica de negocio backend.
+## Traces en esta carpeta
 
-| Archivo | Servicio | Descripción |
-|---------|----------|-------------|
-| (vacío) | - | Aquí irán las trazas de backend cuando se investiguen flujos |
-
-## 📝 Cómo crear una trace de backend
-
-1. Identifica el endpoint/controller que procesa la request
-2. Documenta: Controller → Service → Repository → Query DB
-3. Usa template: [[06-GOVERNANCE/templates/trace-template.md]]
-4. Nombra: `{accion-descriptiva}-flow.md` (ej: `jwt-validation-flow.md`, `create-patient-flow.md`)
-
-**Ejemplo:**
-```
-Endpoint: POST /auth/login
-Controller: AuthController.login()
-Service: AuthService.validateCredentials()
-Repository: UserRepository.findByEmail()
-Tabla: usuarios
-Query: SELECT * FROM usuarios WHERE email = ?
-```
-
-## 🔗 Relaciones
-
-- **Padre:** [[traces_index.md]]
-- **Frontend relacionado:** [[../frontend/frontend-traces_index.md]]
-- **Database relacionada:** [[../database/database-traces_index.md]]
-- **Template:** [[../../06-GOVERNANCE/templates/trace-template.md]]
+| Archivo | Descripción | Domain | Servicio | Complejidad |
+|---------|-------------|--------|----------|-------------|
+| [[transferido-status-determination.md]] | Qué define que aparezca "Transferido" en columna OUT | [[laboratorio]] | apps-web (PHP Legacy) | Baja |
 
 ---
 
-**Tags:** #traces #backend
+## Relaciones con otras carpetas
+
+### Depende de:
+- [[02-DOMINIOS/laboratorio/]] - Lógica de negocio de laboratorio
+- [[04-REFERENCIAS/Tables-Catalog#hc_aspirado]] - Tabla de datos
+
+### Es referenciado por:
+- [[02-DOMINIOS/laboratorio/Columna OUT - Estado del Embrión]]
+- [[01-SERVICIOS/apps-web]] - Sistema PHP legacy
+
+---
+
+## Próximas investigaciones
+
+- [ ] Login flow (frontend → backend → auth service)
+- [ ] Create patient flow (frontend → backend → database)
+- [ ] Appointment creation (frontend → backend → calendar service)
+- [ ] JWT validation in Gateway
+- [ ] Multi-sede authentication logic
+
+---
+
 **Última actualización:** 2026-04-13
-**Estado:** 🟡 Vacío - Pendiente llenar
+**Mantenido por:** Obsidian Documenter Agent

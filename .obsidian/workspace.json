@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "02-DOMINIOS/laboratorio/Columna OUT - Estado del Embrión.md",
+                "file": "05-TRACES/backend/transferido-status-determination.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Columna OUT - Estado del Embrión"
+              "title": "transferido-status-determination"
             }
           }
         ]
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "02-DOMINIOS/laboratorio/Columna OUT - Estado del Embrión.md",
+                "file": "05-TRACES/backend/transferido-status-determination.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Enlaces entrantes de Columna OUT - Estado del Embrión"
+              "title": "Enlaces entrantes de transferido-status-determination"
             }
           },
           {
@@ -113,12 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "02-DOMINIOS/laboratorio/Columna OUT - Estado del Embrión.md",
+                "file": "05-TRACES/backend/transferido-status-determination.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Enlaces salientes de Columna OUT - Estado del Embrión"
+              "title": "Enlaces salientes de transferido-status-determination"
             }
           },
           {
@@ -156,13 +156,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "02-DOMINIOS/laboratorio/Columna OUT - Estado del Embrión.md",
+                "file": "05-TRACES/backend/transferido-status-determination.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Esquema de Columna OUT - Estado del Embrión"
+              "title": "Esquema de transferido-status-determination"
             }
           }
         ]
@@ -185,7 +185,9 @@
   },
   "active": "67c0be5045edc91c",
   "lastOpenFiles": [
+    "02-DOMINIOS/laboratorio/Columna OUT - Estado del Embrión.md",
     "06-GOVERNANCE/Estructura-Vault-Inmater.md",
+    "05-TRACES/backend/transferido-status-determination.md",
     "05-TRACES/traces_index.md",
     "03-ARQUITECTURA/decisions.md",
     "03-ARQUITECTURA/decisions/decisions_index.md",
@@ -207,10 +209,8 @@
     "03-ARQUITECTURA/infra/infra_index.md",
     "03-ARQUITECTURA/infra/DevOps-Infraestructura.md",
     "03-ARQUITECTURA/infra/Base de Datos-PostgreSQL.md",
-    "02-DOMINIOS/laboratorio/Columna OUT - Estado del Embrión.md",
     "02-DOMINIOS/_shared-patterns/shared-patterns_index.md",
     "01-SERVICIOS/Servicios-Microservicios.md",
-    "01-SERVICIOS/servicios_index.md",
     "01-SERVICIOS/servicios_index.md.tmp.29568.1776131005669",
     "02-DOMINIOS/_shared-patterns/shared-patterns_index.md.tmp.29568.1776130998251",
     "02-DOMINIOS/laboratorio/laboratorio_index.md.tmp.29568.1776130991211",

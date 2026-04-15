@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "05-TRACES/backend/transferido-status-determination.md",
+                "file": "05-TRACES/backend/backend-traces_index.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "transferido-status-determination"
+              "title": "backend-traces_index"
             }
           }
         ]
@@ -185,9 +185,26 @@
   },
   "active": "67c0be5045edc91c",
   "lastOpenFiles": [
+    "05-TRACES/backend/backend-traces_index.md.tmp.30396.1776270256904",
+    "05-TRACES/backend/backend-traces_index.md.tmp.30396.1776270245255",
+    "05-TRACES/backend/info-r-cambiar-pareja.md",
+    "05-TRACES/backend/lab-updateaspi-sta-call-sites.md.tmp.30032.1776269651077",
+    "05-TRACES/backend/lab-updateaspi-sta-call-sites.md.tmp.30032.1776269632956",
+    "05-TRACES/backend/anu-lifecycle-dia5-dia6.md",
     "02-DOMINIOS/laboratorio/Columna OUT - Estado del Embrión.md",
-    "06-GOVERNANCE/Estructura-Vault-Inmater.md",
+    "02-DOMINIOS/laboratorio/Campo ANU - Bloqueo por Día del Óvulo.md",
+    "05-TRACES/backend/backend-traces_index.md.tmp.21784.1776262175903",
+    "05-TRACES/backend/lab-updateaspi-sta-call-sites.md",
+    "05-TRACES/backend/lab-updateaspi-sta-call-sites.md.tmp.21784.1776262166773",
+    "05-TRACES/backend/anu-dia6-bug-cierre-prematuro.md.tmp.21784.1776262088127",
+    "05-TRACES/backend/anu-dia6-bug-cierre-prematuro.md.tmp.21784.1776262075065",
+    "05-TRACES/backend/backend-traces_index.md.tmp.21784.1776260247889",
+    "05-TRACES/backend/anu-dia6-bug-cierre-prematuro.md",
+    "05-TRACES/backend/anu-dia6-bug-cierre-prematuro.md.tmp.21784.1776260243217",
+    "apps/web/le_aspi5.php.md",
+    "apps/web",
     "05-TRACES/backend/transferido-status-determination.md",
+    "06-GOVERNANCE/Estructura-Vault-Inmater.md",
     "05-TRACES/traces_index.md",
     "03-ARQUITECTURA/decisions.md",
     "03-ARQUITECTURA/decisions/decisions_index.md",
@@ -203,23 +220,6 @@
     "05-TRACES/database/database-traces_index.md",
     "05-TRACES/backend/backend-traces_index.md",
     "04-REFERENCIAS/referencias_index.md",
-    "03-ARQUITECTURA/Arquitectura-Stack-Tecnologico.md",
-    "03-ARQUITECTURA/arquitectura_index.md",
-    "03-ARQUITECTURA/patterns/patterns_index.md",
-    "03-ARQUITECTURA/infra/infra_index.md",
-    "03-ARQUITECTURA/infra/DevOps-Infraestructura.md",
-    "03-ARQUITECTURA/infra/Base de Datos-PostgreSQL.md",
-    "02-DOMINIOS/_shared-patterns/shared-patterns_index.md",
-    "01-SERVICIOS/Servicios-Microservicios.md",
-    "01-SERVICIOS/servicios_index.md.tmp.29568.1776131005669",
-    "02-DOMINIOS/_shared-patterns/shared-patterns_index.md.tmp.29568.1776130998251",
-    "02-DOMINIOS/laboratorio/laboratorio_index.md.tmp.29568.1776130991211",
-    "03-ARQUITECTURA/infra/infra_index.md.tmp.29568.1776130977470",
-    "03-ARQUITECTURA/patterns/patterns_index.md.tmp.29568.1776130971798",
-    "03-ARQUITECTURA/decisions/decisions_index.md.tmp.29568.1776130963585",
-    "03-ARQUITECTURA/arquitectura_index.md.tmp.29568.1776130957623",
-    "04-REFERENCIAS/referencias_index.md.tmp.29568.1776130951493",
-    "05-TRACES/frontend/frontend-traces_index.md.tmp.29568.1776130933909",
-    "06-GOVERNANCE/governance_index.md.tmp.29568.1776130920553"
+    "03-ARQUITECTURA/Arquitectura-Stack-Tecnologico.md"
   ]
 }

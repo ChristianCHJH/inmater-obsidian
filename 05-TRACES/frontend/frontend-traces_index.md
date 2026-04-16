@@ -10,6 +10,7 @@ Investigaciones que comienzan en la interfaz de usuario (componentes, botones, e
 | [[gestor-pagos-reportes-lote.md]]        | `ControlLoteSection.vue` — botones "Reporte Detallado" / "Totales"        | Flujo completo de reportes de lote Niubiz: API bridge, dialog ticket, impresión 80mm                           |
 | [[voucher-anulacion-gestor-pagos.md]]    | `TransaccionesTable.vue` — "Ver Voucher" en transacción cancelada         | Fix: voucher de anulación desde `transacciones_pagos_cancelaciones` en vez del voucher original                |
 | [[gestor-pagos-dev-mode-401-cascade.md]] | Carga del módulo gestor-pagos en entorno de desarrollo                    | Fix: cascada de 401 que deslogueaba al usuario; token mock inválido + interceptor axios agresivo               |
+| [[pago-legacy-vinculacion-pos.md]]       | `apps/web/pago.php` — sección "Medios de Pago", botones Vincular/Cobrar POS | Flujo completo de vinculación POS: búsqueda, cobro directo, bloqueo de campos, _auth_codes, regla monto fijo |
 
 ## 📝 Cómo crear una trace de frontend
 

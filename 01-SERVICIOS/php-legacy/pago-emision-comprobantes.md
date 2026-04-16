@@ -7,6 +7,9 @@ type: domain
 status: documented
 created: 2026-04-16
 last-reviewed: 2026-04-16
+sessions:
+  - 2026-04-16: fixes servicio gratuito, bancos, monto sugerido modal
+  - 2026-04-16: vinculación POS completa (codigo_autorizacion, bloqueo campos, regla monto fijo)
 tech-stack:
   - PHP
   - jQuery Mobile
@@ -195,7 +198,7 @@ ALTER TABLE appinmater_modulo.recibos
 ```
 
 **Flujo de escritura (pago.php + _database/pago.php):**
-- `seleccionarTxnPOS(slot, id)` setea `$("#txn_pos_" + slot).val(id)` al vincular o cobrar
+- `seleccionarTxnPOS(slot, id, monto, marca, ultimos4, tipoTarjeta, issuingBank, numeroCuotas, moneda, codigoAutorizacion)` setea `#txn_pos_{slot}` y todos los campos del slot al vincular o cobrar
 - El form envía `txn_pos_1/2/3` por POST
 - El INSERT y el UPDATE en `_database/pago.php` guardan los valores en BD
 - Si no hay transacción POS → se guarda `NULL`
@@ -207,6 +210,155 @@ GET /microservicesFinancialManagement/comprobantes/legacy/{id}/{tip}/pagos-pos
 Retorna `forma_pago_1/2/3` con detalle de `transaccion_pos` o `null` si no aplica.
 
 Ver trace completo: [[05-TRACES/backend/pos-recibo-vinculacion]]
+Ver flujo UI completo: [[05-TRACES/frontend/pago-legacy-vinculacion-pos]]
+
+---
+
+## Sistema de bloqueo de campos al vincular POS (2026-04-16)
+
+Cuando una transacción queda vinculada a un slot, la UI aplica bloqueo visual y funcional:
+
+### Campos bloqueados (no editables)
+| Campo | Mecanismo | Razón |
+|-------|-----------|-------|
+| Tipo de pago (`#t{n}`) | CSS `pointer-events: none; opacity: 0.6` vía clase `.campo-txn-vinculada` | Select JQM no se puede hacer `disabled` sin bloquear el POST |
+| Banco (`#banco{n}`) | ídem | ídem |
+| Tipo tarjeta (`#tipotarjeta{n}`) | ídem | ídem |
+| Moneda (`#m{n}`) | ídem | ídem |
+| Cuotas (`#numerocuotas{n}`) | `readonly` + clase `.campo-txn-vinculada-input` | Preserva valor en POST |
+| Monto (`#p{n}`) | `readonly` + clase `.campo-txn-vinculada-input` | ídem |
+
+### Sección oculta al vincular
+- Row del buscador (input "ID transaccion..." + botón "Buscar"): `$('#buscar_txn_pos_' + slot).parent().hide()`
+- Botón "Cobrar POS" (`#btn_cobrar_pos_{n}`): `.hide()`
+- Selector de terminal POS (`#poss{n}`): `.closest('.ui-select').hide()`
+
+Todo se restaura al hacer × (`limpiarTxnPOS`).
+
+### CSS aplicado
+```css
+/* pago_ini.php <style> block */
+.campo-txn-vinculada .ui-btn {
+    pointer-events: none !important;
+    opacity: 0.6 !important;
+}
+input.campo-txn-vinculada-input {
+    pointer-events: none !important;
+    opacity: 0.6 !important;
+    cursor: default !important;
+}
+```
+
+---
+
+## Sistema de códigos de autorización (`_auth_codes`) (2026-04-16)
+
+El campo `#comprobante_referencia` ("Número de comprobante de referencia") se pobla automáticamente con los códigos de autorización POS de cada slot vinculado.
+
+```javascript
+var _auth_codes = { 1: null, 2: null, 3: null };
+
+function _actualizarReferenciaAutorizacion(slot, codigo) {
+    _auth_codes[slot] = codigo || null;
+    var partes = [];
+    [1, 2, 3].forEach(function(s) {
+        if (_auth_codes[s]) partes.push(_auth_codes[s]);
+    });
+    var inputRef = document.getElementById('comprobante_referencia');
+    if (inputRef) inputRef.value = partes.join(' / ');
+}
+```
+
+**Comportamiento:**
+- Vincular slot 1 (código "260438") → campo: `"260438"`
+- Vincular slot 2 (código "141125") → campo: `"260438 / 141125"`
+- Desvincular slot 1 → campo: `"141125"`
+- Reemplazar slot 2 con nuevo código → campo se reconstruye sin duplicar
+
+**Bug corregido:** antes se concatenaba siempre (`valorActual + ' / ' + authNumber`), causando duplicados al reemplazar transacciones.
+
+**Fuente del código:** 
+- Flujo "Buscar + Vincular": `codigo_autorizacion` viene del endpoint `/recientes` de `EMR.Financial-Management.Service`
+- Flujo "Cobrar POS": `authNumber` viene directamente de la respuesta del bridge PinPad Niubiz
+
+---
+
+## Regla de negocio: monto de slot vinculado es inmutable (2026-04-16)
+
+**Regla:** Si `#txn_pos_{n}` tiene valor (transacción vinculada), el campo `#p{n}` no se actualiza cuando el usuario cambia los servicios o el total.
+
+**Razonamiento:** La transacción POS representa dinero real debitado de la tarjeta. Ese monto es un hecho consumado. Cambiar los servicios no deshace el cobro.
+
+**Implementación — funciones guard en `_componentes/pago_ini.php`:**
+```javascript
+function _setTotYP1(valor) {
+    $("#tot").val(valor);                              // siempre se actualiza
+    if (!$("#txn_pos_1").val()) $("#p1").val(valor);   // solo si no hay txn vinculada
+}
+
+function _setP1SiNoVinculada(valor) {
+    if (!$("#txn_pos_1").val()) $("#p1").val(valor);
+}
+```
+
+**Puntos de aplicación:**
+| Archivo | Patrón original | Reemplazado por |
+|---------|----------------|-----------------|
+| `_componentes/pago_total.php` (9 lugares) | `$("#tot, #p1").val(X)` | `_setTotYP1(X)` |
+| `_componentes/pago.php` — handler descuento | `$("#p1").val(totalConDescuento)` | `_setP1SiNoVinculada(totalConDescuento)` |
+| `_componentes/pago.php` — servicio gratuito ON | `$("#total_descuento, #p1").val("0")` | `$("#total_descuento").val("0"); _setP1SiNoVinculada("0")` |
+| `_componentes/pago.php` — servicio gratuito OFF | `$("#total_descuento, #p1").val(original)` | split similar |
+
+**Nota:** `_setP1SiNoVinculada` solo protege slot 1. Los slots 2 y 3 no tienen este problema porque su valor inicial es vacío (no heredan el total automáticamente).
+
+---
+
+## Comportamiento al desvincular (`limpiarTxnPOS`) — estado completo
+
+Al hacer × en el badge de transacción vinculada:
+
+1. Limpia `#txn_pos_{slot}` (hidden field)
+2. Limpia badge (`#txn_seleccionada_{slot}`) y resultados de búsqueda
+3. Limpia input buscador (`#buscar_txn_pos_{slot}`)
+4. Llama `_actualizarReferenciaAutorizacion(slot, null)` → elimina código del campo referencia
+5. Resetea selects a `selectedIndex = 0` con `.trigger('change')` para que JQM refresque la UI:
+   - `#t{slot}`, `#banco{slot}`, `#tipotarjeta{slot}`, `#m{slot}`
+6. Vacía cuotas (`#numerocuotas{slot}`)
+7. **NO** limpia monto (`#p{slot}`) — se mantiene por si el usuario quiere reutilizarlo
+8. Muestra selector de terminal POS
+9. Muestra sección buscar + botón Cobrar POS
+10. Desbloquea todos los campos
+
+---
+
+## Backend: `codigo_autorizacion` en endpoint `/recientes` (2026-04-16)
+
+El endpoint `GET /microservicesFinancialManagement/pinpad/transaccionesPagos/recientes` fue corregido para incluir `codigo_autorizacion` en la respuesta.
+
+**Problema:** el service `obtenerRecientes()` hacía un `.map()` explícito a `TransaccionResumen` que no incluía el campo, descartándolo aunque estuviera en el modelo y en la BD.
+
+**Fix en `TransaccionPago.sequelize.ts`:**
+```typescript
+attributes: [
+  'id', 'monto', 'marca_tarjeta', 'banco_emisor', 'tipo_tarjeta',
+  'numero_tarjeta_mask', 'numero_cuotas', 'fecha_transaccion', 'hora_transaccion',
+  'codigo_autorizacion',  // ← agregado
+  [literal(`...`), 'moneda'],
+],
+```
+
+**Fix en `TransaccionPago.service.ts`:**
+```typescript
+export interface TransaccionResumen {
+  // ...campos existentes...
+  codigo_autorizacion?: string | null;  // ← agregado
+}
+
+// en obtenerRecientes().map():
+codigo_autorizacion: transaccion.codigo_autorizacion || null,  // ← agregado
+```
+
+**Tabla:** `appinmater_financial_management.transacciones_pagos.codigo_autorizacion VARCHAR(20)`
 
 ---
 
@@ -214,6 +366,7 @@ Ver trace completo: [[05-TRACES/backend/pos-recibo-vinculacion]]
 
 - Dominio POS/pagos: [[02-DOMINIOS/facturacion/gestor-pagos]]
 - Traces frontend: [[05-TRACES/frontend/voucher-anulacion-gestor-pagos]]
-- Trace vinculación POS: [[05-TRACES/backend/pos-recibo-vinculacion]]
+- Trace vinculación POS UI: [[05-TRACES/frontend/pago-legacy-vinculacion-pos]]
+- Trace vinculación backend: [[05-TRACES/backend/pos-recibo-vinculacion]]
 - Endpoint de lectura: [[01-SERVICIOS/emr-financial-management/endpoints/GET-comprobante-pagos-pos]]
 - Bridge PinPad: `/_Microservices/EMR/Services/CobroPOS.service.php`

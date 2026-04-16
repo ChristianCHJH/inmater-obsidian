@@ -28,6 +28,7 @@ EMR (Electronic Medical Record) es un sistema de historias clínicas para una cl
 - [[01-SERVICIOS/Servicios-Microservicios]] - Catálogo de servicios
 - API Gateway, Auth Service, Patient Service, Calendar Service
 - Vue3 frontend, PHP legacy → [[01-SERVICIOS/php-legacy/pago-emision-comprobantes]]
+- Trace vinculación POS (legacy) → [[05-TRACES/frontend/pago-legacy-vinculacion-pos]]
 
 ### Nivel 2️⃣: DOMINIOS (lógica compartida - EJE CENTRAL)
 

@@ -1,6 +1,6 @@
 # Índice: Dominio Facturación
 
-**Última actualización:** 2026-04-15
+**Última actualización:** 2026-04-16
 **Estado:** 🟡 En construcción
 
 ## Archivos en esta carpeta
@@ -8,6 +8,7 @@
 | Archivo | Descripción | Servicios |
 |---------|-------------|-----------|
 | [[gestor-pagos]] | Lógica del módulo Gestor de Pagos (POS Niubiz): transacciones, anulaciones, vouchers | `EMR.Financial-Management.Service`, `apps/frontend` |
+| [[mifact-api]] | Integración mifact OSE: emisión boletas/facturas, anulación, estados SUNAT | `apps/web` (PHP legacy) |
 
 ## Relaciones con otras carpetas
 

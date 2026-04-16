@@ -4,17 +4,17 @@
     "type": "split",
     "children": [
       {
-        "id": "c7ccba064373e9da",
+        "id": "dd911d274d87beb9",
         "type": "tabs",
         "children": [
           {
-            "id": "67c0be5045edc91c",
+            "id": "16cff5c610e2bcd7",
             "type": "leaf",
             "state": {
-              "type": "graph",
+              "type": "empty",
               "state": {},
-              "icon": "lucide-git-fork",
-              "title": "Vista gráfica"
+              "icon": "lucide-file",
+              "title": "Nueva pestaña"
             }
           }
         ]
@@ -179,24 +179,29 @@
       "bases:Crear nueva base": false
     }
   },
-  "active": "d6ec6f289c1943d6",
+  "active": "16cff5c610e2bcd7",
   "lastOpenFiles": [
+    "00-INICIO.md.tmp.36496.1776382906783",
+    "02-DOMINIOS/facturacion/mifact-api.md",
+    "02-DOMINIOS/facturacion/mifact-api.md.tmp.36496.1776382891995",
+    "Laboratorio-Procesos.md",
+    "apijson-master/integracionConJson_RetencionesPercepciones/Ejemplos_Json_Percepcion/ObtenerPDF_XML_CDR.txt",
+    "apijson-master/integracionConJson_RetencionesPercepciones/Ejemplos_Json_Percepcion/ObtenerEstadoPercepcion.txt",
+    "apijson-master/integracionConJson_RetencionesPercepciones/Ejemplos_Json_Percepcion/EnvioPercepcion.txt",
+    "apijson-master/integracionConJson_RetencionesPercepciones/Ejemplos_Json_Percepcion/AnularPercepcion.txt",
+    "apijson-master/integracionConJson_RetencionesPercepciones/Ejemplos_Json_Retencion/ObtenerPDF_XML_CDR.txt",
+    "apijson-master/integracionConJson_RetencionesPercepciones/Ejemplos_Json_Retencion/ObtenerEstadoRetencion.txt",
+    "apijson-master/integracionConJson_RetencionesPercepciones/Ejemplos_Json_Retencion/EnvioRetencion.txt",
+    "apijson-master/integracionConJson_RetencionesPercepciones/Ejemplos_Json_Retencion/AnularRetencion.txt",
+    "apijson-master/integracionConJson_RetencionesPercepciones/URLs_PRUEBAS.txt",
+    "apijson-master/integracionConJson_FV_BV_NC_ND/Codigos Fuentes Varios Lenguajes/PUNTO_NET_CON_JSON/packages/Newtonsoft.Json.11.0.1/LICENSE.md",
+    "apijson-master/README.md",
     "Sin título.canvas",
-    "Sin título.base",
     "apps/web/n_repro.php.md",
     "03-ARQUITECTURA/decisions.md",
     "06-GOVERNANCE/Git y Convenciones.md",
     "05-TRACES/backend/backend-traces_index.md",
-    "05-TRACES/traces_index.md.tmp.25404.1776302901774",
-    "05-TRACES/traces_index.md.tmp.25404.1776302897230",
-    "05-TRACES/traces_index.md.tmp.25404.1776302882856",
-    "05-TRACES/frontend/frontend-traces_index.md.tmp.21676.1776302880314",
-    "05-TRACES/traces_index.md.tmp.25404.1776302875354",
-    "05-TRACES/frontend/frontend-traces_index.md.tmp.21676.1776302857228",
-    "05-TRACES/frontend/frontend-traces_index.md.tmp.21676.1776302846981",
-    "05-TRACES/frontend/frontend-traces_index.md.tmp.25404.1776302835674",
     "02-DOMINIOS/facturacion/facturacion_index.md",
-    "05-TRACES/frontend/frontend-traces_index.md.tmp.25404.1776302826098",
     "02-DOMINIOS/facturacion/gestor-pagos.md",
     "05-TRACES/frontend/gestor-pagos-reportes-lote.md",
     "05-TRACES/frontend/gestor-pagos-dev-mode-401-cascade.md",
@@ -212,10 +217,6 @@
     "05-TRACES/backend/transferido-status-determination.md",
     "06-GOVERNANCE/Estructura-Vault-Inmater.md",
     "05-TRACES/traces_index.md",
-    "03-ARQUITECTURA/decisions/decisions_index.md",
-    "03-ARQUITECTURA/decisions/Decisiones-Arquitectonicas-ADRs.md",
-    "00-INICIO.md",
-    "Laboratorio-Procesos.md",
-    "02-DOMINIOS/laboratorio/laboratorio_index.md"
+    "03-ARQUITECTURA/decisions/decisions_index.md"
   ]
 }

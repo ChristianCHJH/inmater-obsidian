@@ -35,6 +35,7 @@ EMR (Electronic Medical Record) es un sistema de historias clínicas para una cl
 - [[02-DOMINIOS/Procesos-Negocio]] - Flujos de negocio generales
 - [[02-DOMINIOS/laboratorio/Laboratorio-Procesos]] - Laboratorio
 - [[02-DOMINIOS/facturacion/gestor-pagos]] - Pagos POS, cobros, comprobantes
+- [[02-DOMINIOS/facturacion/mifact-api]] - Integración OSE mifact: emisión/anulación comprobantes SUNAT
 - [[02-DOMINIOS/_shared-patterns/]] - Patrones reutilizables
 
 ### Nivel 3️⃣: ARQUITECTURA (decisiones y patrones)

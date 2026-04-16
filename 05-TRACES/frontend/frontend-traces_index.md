@@ -4,9 +4,12 @@
 
 Investigaciones que comienzan en la interfaz de usuario (componentes, botones, eventos).
 
-| Archivo | Origen | Descripción |
-|---------|--------|-------------|
-| (vacío) | - | Aquí irán las trazas de frontend cuando se investiguen flujos |
+| Archivo                                  | Origen                                                                    | Descripción                                                                                                    |
+|------------------------------------------|---------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------|
+| [[pinpad-inicializar-flow.md]]           | `PinpadStatusCard.vue` — botón "Inicializar"                              | Flujo completo de inicialización de terminal PinPad Niubiz: modal loading/success/error, statusCode humanizado |
+| [[gestor-pagos-reportes-lote.md]]        | `ControlLoteSection.vue` — botones "Reporte Detallado" / "Totales"        | Flujo completo de reportes de lote Niubiz: API bridge, dialog ticket, impresión 80mm                           |
+| [[voucher-anulacion-gestor-pagos.md]]    | `TransaccionesTable.vue` — "Ver Voucher" en transacción cancelada         | Fix: voucher de anulación desde `transacciones_pagos_cancelaciones` en vez del voucher original                |
+| [[gestor-pagos-dev-mode-401-cascade.md]] | Carga del módulo gestor-pagos en entorno de desarrollo                    | Fix: cascada de 401 que deslogueaba al usuario; token mock inválido + interceptor axios agresivo               |
 
 ## 📝 Cómo crear una trace de frontend
 
@@ -34,5 +37,4 @@ Estado actualizado: Pinia authStore.user
 ---
 
 **Tags:** #traces #frontend
-**Última actualización:** 2026-04-13
-**Estado:** 🟡 Vacío - Pendiente llenar
+**Última actualización:** 2026-04-15

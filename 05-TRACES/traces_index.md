@@ -1,7 +1,7 @@
 # Índice: Traces (Investigaciones Documentadas)
 
-**Última actualización:** 2026-04-13
-**Total de traces:** 1
+**Última actualización:** 2026-04-15
+**Total de traces:** 5
 **Estado:** 🟢 Actualizado
 
 ## 📊 Traces por capa
@@ -9,7 +9,10 @@
 ### Frontend Traces
 ```
 05-TRACES/frontend/
-(vacío - próximas investigaciones)
+├── pinpad-inicializar-flow.md
+├── gestor-pagos-reportes-lote.md
+├── voucher-anulacion-gestor-pagos.md
+└── gestor-pagos-dev-mode-401-cascade.md
 ```
 
 ### Backend Traces
@@ -30,8 +33,12 @@
 ## 📋 Listado completo
 
 | Archivo | Capa | Dominio | Descripción | Estado |
-|---------|------|---------|-------------|--------|
-| [[05-TRACES/backend/transferido-status-determination.md]] | Backend | laboratorio | Lógica que determina "Transferido" en OUT | 🟢 Documentado |
+| --- | --- | --- | --- | --- |
+| [[05-TRACES/backend/transferido-status-determination.md]] | Backend | laboratorio | Lógica que determina "Transferido" en OUT | Documentado |
+| [[05-TRACES/frontend/pinpad-inicializar-flow.md]] | Frontend | gestor-pagos | Flujo de inicialización de terminal PinPad Niubiz | Documentado |
+| [[05-TRACES/frontend/gestor-pagos-reportes-lote.md]] | Frontend | gestor-pagos | Flujo de reportes de lote desde ControlLoteSection | Documentado |
+| [[05-TRACES/frontend/voucher-anulacion-gestor-pagos.md]] | Frontend | gestor-pagos | Fix voucher de anulación en TransaccionesTable | Documentado |
+| [[05-TRACES/frontend/gestor-pagos-dev-mode-401-cascade.md]] | Frontend | gestor-pagos | Fix cascada de 401 en dev local | Documentado |
 
 ---
 

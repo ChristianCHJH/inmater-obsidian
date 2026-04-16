@@ -17,6 +17,7 @@ EMR (Electronic Medical Record) es un sistema de historias clínicas para una cl
 - **EMR.Auth.Service**: Autenticación y sesiones
 - **EMR.Patient.Service**: Gestión de pacientes
 - **EMR.Calendar.Service**: Agenda y turnos
+- **EMR.Financial-Management.Service**: POS Niubiz, transacciones, comisiones → [[01-SERVICIOS/emr-financial-management/_index]]
 - **apps/frontend**: Vue 3 SPA
 - **apps/web**: PHP legacy
 

@@ -182,9 +182,38 @@ Cada INSERT/UPDATE en `recibos` también inserta en `appinmater_log.recibos` con
 
 ---
 
+## Vinculación POS → Forma de pago (2026-04-16)
+
+Las columnas `txn_pos_1`, `txn_pos_2`, `txn_pos_3` (BIGINT NULL) fueron agregadas a `appinmater_modulo.recibos` para registrar qué transacción POS corresponde a cada forma de pago.
+
+**SQL de migración:**
+```sql
+ALTER TABLE appinmater_modulo.recibos
+  ADD COLUMN txn_pos_1 BIGINT NULL,
+  ADD COLUMN txn_pos_2 BIGINT NULL,
+  ADD COLUMN txn_pos_3 BIGINT NULL;
+```
+
+**Flujo de escritura (pago.php + _database/pago.php):**
+- `seleccionarTxnPOS(slot, id)` setea `$("#txn_pos_" + slot).val(id)` al vincular o cobrar
+- El form envía `txn_pos_1/2/3` por POST
+- El INSERT y el UPDATE en `_database/pago.php` guardan los valores en BD
+- Si no hay transacción POS → se guarda `NULL`
+
+**Flujo de lectura (EMR.Financial-Management.Service):**
+```
+GET /microservicesFinancialManagement/comprobantes/legacy/{id}/{tip}/pagos-pos
+```
+Retorna `forma_pago_1/2/3` con detalle de `transaccion_pos` o `null` si no aplica.
+
+Ver trace completo: [[05-TRACES/backend/pos-recibo-vinculacion]]
+
+---
+
 ## Relacionado
 
 - Dominio POS/pagos: [[02-DOMINIOS/facturacion/gestor-pagos]]
 - Traces frontend: [[05-TRACES/frontend/voucher-anulacion-gestor-pagos]]
-- Servicio financiero: `EMR.Financial-Management.Service` (vinculación de transacciones POS)
+- Trace vinculación POS: [[05-TRACES/backend/pos-recibo-vinculacion]]
+- Endpoint de lectura: [[01-SERVICIOS/emr-financial-management/endpoints/GET-comprobante-pagos-pos]]
 - Bridge PinPad: `/_Microservices/EMR/Services/CobroPOS.service.php`

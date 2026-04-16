@@ -1,7 +1,7 @@
 # Índice: Traces (Investigaciones Documentadas)
 
-**Última actualización:** 2026-04-15
-**Total de traces:** 5
+**Última actualización:** 2026-04-16
+**Total de traces:** 6
 **Estado:** 🟢 Actualizado
 
 ## 📊 Traces por capa

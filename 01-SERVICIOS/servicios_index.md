@@ -14,6 +14,7 @@ Catálogo de todos los servicios (microservicios backend, frontend, legacy) que 
 | **EMR.Auth.Service** | 3003 | Autenticación y JWT | inmater-core |
 | **EMR.Patient.Service** | 3001 | Datos de pacientes | inmater-core |
 | **EMR.Calendar.Service** | 3002 | Calendario y turnos | inmater-core |
+| **EMR.Financial-Management.Service** | Cloud Run | POS Niubiz, transacciones, comisiones, comprobantes | inmater-core |
 
 ### Frontend
 

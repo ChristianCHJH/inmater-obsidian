@@ -9,7 +9,7 @@ Catálogo de todos los servicios (microservicios backend, frontend, legacy) que 
 ### Backend - Microservicios
 
 | Servicio | Puerto | Descripción | Repo |
-|----------|--------|-------------|------|
+| --- | --- | --- | --- |
 | **EMR.Api-Gateway.Service** | 8080 | Enrutador central | inmater-core |
 | **EMR.Auth.Service** | 3003 | Autenticación y JWT | inmater-core |
 | **EMR.Patient.Service** | 3001 | Datos de pacientes | inmater-core |
@@ -18,9 +18,15 @@ Catálogo de todos los servicios (microservicios backend, frontend, legacy) que 
 ### Frontend
 
 | Aplicación | URL | Descripción | Repo | Tech |
-|-----------|-----|-------------|------|------|
-| **portal.inmater.pe** (nueva) | https://portal.inmater.pe | SPA Vue 3 | GitHub | Vue 3 + Vite + PrimeVue |
-| **app.inmater.pe** (legacy) | https://app.inmater.pe | PHP legacy | Bitbucket | PHP Laravel |
+| --- | --- | --- | --- | --- |
+| **portal.inmater.pe** (nueva) | [portal.inmater.pe](https://portal.inmater.pe) | SPA Vue 3 | GitHub | Vue 3 + Vite + PrimeVue |
+| **app.inmater.pe** (legacy) | [app.inmater.pe](https://app.inmater.pe) | PHP legacy | Bitbucket | PHP + jQuery Mobile |
+
+### PHP Legacy — Módulos documentados
+
+| Módulo | Archivo | Doc |
+| --- | --- | --- |
+| Emisión de comprobantes | `apps/web/pago.php` | [[01-SERVICIOS/php-legacy/pago-emision-comprobantes]] |
 
 ## 📝 Cómo agregar un nuevo servicio
 
@@ -43,4 +49,4 @@ Catálogo de todos los servicios (microservicios backend, frontend, legacy) que 
 ---
 
 **Tags:** #services #repository
-**Última actualización:** 2026-04-13
+**Última actualización:** 2026-04-16

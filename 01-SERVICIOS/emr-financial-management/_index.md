@@ -6,6 +6,7 @@ type: index
 status: documented
 created: 2026-04-16
 last-reviewed: 2026-04-16
+migration-pending: "ALTER TABLE <schema>.log_peticiones_pinpad ADD COLUMN id_usuario_creacion INTEGER NULL"
 ---
 
 # EMR.Financial-Management.Service — Índice
@@ -46,6 +47,7 @@ last-reviewed: 2026-04-16
 | `transacciones_pagos_cancelaciones` | `DB_SCHEMA_FINANCIAL_MANAGEMENT` | Anulaciones de transacciones |
 | `comisiones_bancarias` | `DB_SCHEMA_FINANCIAL_MANAGEMENT` | Tarifas de comisión por banco/tipo |
 | `comision_defaults` | `DB_SCHEMA_FINANCIAL_MANAGEMENT` | Defaults de comisión |
+| `log_peticiones_pinpad` | `DB_SCHEMA_FINANCIAL_MANAGEMENT` | Log de peticiones al bridge Niubiz (incluye `id_usuario_creacion`) |
 
 ## 🗄️ Tablas externas que consulta (cross-schema)
 

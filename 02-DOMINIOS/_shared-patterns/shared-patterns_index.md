@@ -6,10 +6,14 @@ Patrones y soluciones reutilizables en **todos los servicios**. Estos no son esp
 
 ## 📋 Archivos en esta carpeta
 
-Actualmente esta carpeta está **vacía**. Aquí irán patrones como:
+| Patrón | Descripción | Usado por | Status |
+| ------ | ----------- | --------- | ------ |
+| [[user-audit-pattern]] | Cómo registrar `id_usuario_creacion` en tablas (body vs header) | EMR.Financial-Management | documented |
+
+### Patrones pendientes de documentar
 
 | Patrón | Descripción | Usado por |
-|--------|-------------|-----------|
+| ------ | ----------- | --------- |
 | `sequelize-setup.md` | Cómo configurar Sequelize | Todos los servicios |
 | `error-responses.md` | Formato estándar de respuestas de error | Todos los servicios |
 | `caching-strategy.md` | Estrategia de caché con node-cache | Todos los servicios |
@@ -34,5 +38,5 @@ Actualmente esta carpeta está **vacía**. Aquí irán patrones como:
 ---
 
 **Tags:** #patterns #shared #reusable
-**Última actualización:** 2026-04-13
-**Estado:** 🟡 Vacío - Pendiente documentar patrones
+**Última actualización:** 2026-04-16
+**Estado:** 🟢 1 patrón documentado

@@ -1,7 +1,7 @@
 # Dominio: Gestor de Pagos (Pinpad / Niubiz)
 
-**Última actualización:** 2026-04-15
-**Estado:** 🟡 Documentación inicial — en construcción
+**Última actualización:** 2026-04-16
+**Estado:** 🟡 Documentación en construcción
 
 ## Descripción
 
@@ -96,6 +96,54 @@ Ver trace completo: [[05-TRACES/frontend/voucher-anulacion-gestor-pagos]]
 |---------|-----|
 | `domain/entities/TransaccionPago.ts` | Interfaz `TransaccionPagoAttributes` |
 | `infrastructure/repositories/TransaccionPago.sequelize.ts` | Implementación Sequelize con subqueries de cancelación |
+
+---
+
+## Auditoría de usuario en tablas Pinpad
+
+Todas las tablas de negocio del módulo registran quién ejecutó cada operación. El patrón difiere según el tipo de tabla:
+
+### Patrón: tablas de negocio (transacciones, cancelaciones)
+
+El `id_usuario_creacion` llega desde el **body de la request**, enviado explícitamente por el frontend como `usuario_caja_id`.
+
+```
+Frontend (authStore.currentUser.sub)
+  → body: { usuario_caja_id: <id> }
+    → DTO: CreateTransaccionPagoDto.usuario_caja_id
+      → Service: transaccion.id_usuario_creacion = dto.usuario_caja_id
+```
+
+El `nombre_usuario_creacion` llega del **header `x-user-username`** inyectado por el Gateway.
+
+### Patrón: tablas de log/auditoría (`log_peticiones_pinpad`)
+
+El `id_usuario_creacion` llega del **header `x-user-id`** inyectado por el Gateway (extraído del JWT). El frontend **no necesita enviarlo en el body**.
+
+```text
+JWT (sub) → Gateway → header: x-user-id
+  → Controller: parseInt(req.headers['x-user-id'])
+    → service.registrar({ ...body, id_usuario_creacion })
+```
+
+> **Por qué dos patrones distintos:** Las tablas de negocio reciben el user ID del body para mantener compatibilidad con el flujo ya existente del frontend. El log usa el header porque es infraestructura de auditoría — no debe depender de que el frontend lo envíe correctamente.
+
+### Estado de auditoría por tabla
+
+| Tabla | id_usuario_creacion | nombre_usuario_creacion | id_usuario_actualizacion | Fuente del ID |
+| ----- | ------------------- | ----------------------- | ------------------------ | ------------- |
+| `transacciones_pagos` | ✅ NOT NULL | ✅ nullable | ✅ nullable | body `usuario_caja_id` |
+| `transacciones_pagos_cancelaciones` | ✅ NOT NULL | ❌ | ❌ | body `usuario_caja_id` |
+| `log_peticiones_pinpad` | ✅ nullable *(2026-04-16)* | ❌ | ❌ | header `x-user-id` (Gateway) |
+
+### Migración pendiente
+
+```sql
+ALTER TABLE <DB_SCHEMA_FINANCIAL_MANAGEMENT>.log_peticiones_pinpad
+ADD COLUMN id_usuario_creacion INTEGER NULL;
+```
+
+Ver patrón reutilizable: [[02-DOMINIOS/_shared-patterns/user-audit-pattern]]
 
 ---
 

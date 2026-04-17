@@ -77,7 +77,7 @@ Al ejecutarse, produce los siguientes efectos en la UI:
 
 | Acción | Detalle |
 |--------|---------|
-| `#txn_pos_{slot}` = id | Hidden field que va en el POST del formulario |
+| `#id_transaccion_pago{slot}` = id | Hidden field que va en el POST del formulario |
 | Badge visible | `#txn_seleccionada_{slot}` muestra "PAY-NNN \| S/monto \| MARCA *ultimos4 ×" |
 | Tipo de pago `#t{slot}` | Se selecciona la opción cuyo texto contiene la marca (ej: "Mastercard") |
 | Banco `#banco{slot}` | Se selecciona por nombre (fuzzy match); fallback a "Otros" si no coincide |
@@ -176,7 +176,7 @@ function _actualizarReferenciaAutorizacion(slot, codigo) {
 ```
 [Cajero] click × en badge de transacción vinculada
     → limpiarTxnPOS(slot)
-        → #txn_pos_{slot} = ''
+        → #id_transaccion_pago{slot} = ''
         → #resultado_txn_pos_{slot} = ''
         → #txn_seleccionada_{slot} = ''
         → #buscar_txn_pos_{slot} = ''
@@ -197,7 +197,7 @@ function _actualizarReferenciaAutorizacion(slot, codigo) {
 
 ## Regla de negocio: monto de slot vinculado es inmutable ante cambios de servicio
 
-Si `#txn_pos_1` tiene valor y el usuario cambia los servicios:
+Si `#id_transaccion_pago1` tiene valor y el usuario cambia los servicios:
 
 - `#tot` se actualiza con el nuevo total de servicios
 - `#p1` **NO** se actualiza — mantiene el monto real cobrado
@@ -207,7 +207,7 @@ Si `#txn_pos_1` tiene valor y el usuario cambia los servicios:
 ```javascript
 function _setTotYP1(valor) {
     $("#tot").val(valor);
-    if (!$("#txn_pos_1").val()) $("#p1").val(valor);
+    if (!$("#id_transaccion_pago1").val()) $("#p1").val(valor);
 }
 ```
 
@@ -223,14 +223,47 @@ Al submit del formulario `#form2`:
 
 ```
 POST pago.php (self)
-    $_POST['txn_pos_1'] → intval() o null si vacío
-    $_POST['txn_pos_2'] → ídem
-    $_POST['txn_pos_3'] → ídem
+    $_POST['id_transaccion_pago1'] → intval() o null si vacío
+    $_POST['id_transaccion_pago2'] → ídem
+    $_POST['id_transaccion_pago3'] → ídem
     → recibo() en _database/pago.php
         → INSERT/UPDATE appinmater_modulo.recibos
-            txn_pos_1, txn_pos_2, txn_pos_3 (BIGINT NULL)
+            id_transaccion_pago1, id_transaccion_pago2, id_transaccion_pago3 (BIGINT NULL)
         → INSERT appinmater_log.recibos (action='I' o 'U')
 ```
+
+---
+
+## Flujo C — Precarga al abrir un comprobante existente (2026-04-16)
+
+Cuando se abre `pago.php?id=X&t=Y` (comprobante ya existente), los slots de pago se pre-llenan automáticamente con las transacciones POS vinculadas.
+
+```
+$(document).ready()
+  → _precargarTransaccionesPOS()
+      → lee #posIdx (= $_GET['id']) y #posTip (= $pop['tip'])
+      → si ambos > 0:
+          → POST a TransaccionesPago.service.php
+              { endpoint: 'porComprobante', data: { id_recibo, tip_recibo } }
+              → requestToRouting(
+                  'GET /microservicesFinancialManagement/comprobantes/legacy/{id}/{tip}/pagos-pos'
+                )
+                → ComprobanteController.obtenerPagosPos()
+                  ← { forma_pago_1, forma_pago_2, forma_pago_3 }
+          → para cada slot (1, 2, 3):
+              → si forma_pago_N.transaccion_pos != null:
+                  → seleccionarTxnPOS(slot, txn.id, txn.monto, txn.marca_tarjeta,
+                                      ultimos4, txn.tipo_tarjeta, txn.banco_emisor,
+                                      txn.numero_cuotas, txn.moneda, '')
+                      → mismos efectos que Flujo A (bloqueo campos, badge PAY-NNN, etc.)
+```
+
+**Archivos modificados:**
+
+| Archivo                                                                | Cambio                                                                 |
+|------------------------------------------------------------------------|------------------------------------------------------------------------|
+| `apps/web/_Microservices/EMR/Services/TransaccionesPago.service.php`   | +case `porComprobante` → llama al endpoint de comprobantes             |
+| `apps/web/_componentes/pago_ini.php`                                   | +función `_precargarTransaccionesPOS()` llamada en `$(document).ready` |
 
 ---
 
@@ -239,5 +272,6 @@ POST pago.php (self)
 - Doc módulo: [[01-SERVICIOS/php-legacy/pago-emision-comprobantes]]
 - Trace backend lectura: [[../backend/pos-recibo-vinculacion]]
 - Endpoint recientes: `GET /microservicesFinancialManagement/pinpad/transaccionesPagos/recientes`
+- Endpoint precarga: `GET /microservicesFinancialManagement/comprobantes/legacy/:id/:tip/pagos-pos` → [[01-SERVICIOS/emr-financial-management/endpoints/GET-comprobante-pagos-pos]]
 - Bridge PinPad: `/_Microservices/EMR/Services/CobroPOS.service.php`
 - Dominio pagos: [[../../02-DOMINIOS/facturacion/gestor-pagos]]

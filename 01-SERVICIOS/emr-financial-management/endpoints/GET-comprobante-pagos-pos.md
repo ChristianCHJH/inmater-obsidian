@@ -108,15 +108,18 @@ Retorna el detalle de las transacciones POS asociadas a cada forma de pago (1, 2
 ### Queries SQL ejecutadas
 
 **Query 1 — Recibo con IDs de transacciones:**
+
 ```sql
 SELECT
-  m1, p1, banco1, tipotarjeta1, txn_pos_1,
-  m2, p2, banco2, tipotarjeta2, txn_pos_2,
-  m3, p3, banco3, tipotarjeta3, txn_pos_3
+  m1, p1, banco1, tipotarjeta1, id_transaccion_pago1 AS txn_pos_1,
+  m2, p2, banco2, tipotarjeta2, id_transaccion_pago2 AS txn_pos_2,
+  m3, p3, banco3, tipotarjeta3, id_transaccion_pago3 AS txn_pos_3
 FROM appinmater_modulo.recibos
 WHERE id = :id_recibo AND tip = :tip_recibo
 LIMIT 1
 ```
+
+> **Bug corregido (2026-04-16):** El query original usaba `txn_pos_1/2/3` directamente, pero las columnas reales en BD son `id_transaccion_pago1/2/3`. Esto causaba que el endpoint retornara `transaccion_pos: null` en todos los slots aunque hubiera transacciones vinculadas. Fix: alias `id_transaccion_pago1 AS txn_pos_1` para mantener compatibilidad con el resto del código TypeScript.
 
 **Query 2 — Detalle de transacciones POS (solo si hay txn_pos no nulos):**
 ```sql

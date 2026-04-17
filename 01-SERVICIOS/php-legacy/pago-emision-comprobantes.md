@@ -10,6 +10,7 @@ last-reviewed: 2026-04-16
 sessions:
   - 2026-04-16: fixes servicio gratuito, bancos, monto sugerido modal
   - 2026-04-16: vinculación POS completa (codigo_autorizacion, bloqueo campos, regla monto fijo)
+  - 2026-04-16: bug fix INSERT id_transaccion_pago1, precarga POS al abrir comprobante existente
 tech-stack:
   - PHP
   - jQuery Mobile
@@ -95,7 +96,7 @@ Tres formas de pago paralelas (`Forma de Pago 1`, `2`, `3`). Cada una tiene:
 | Moneda | `#m1`, `#m2`, `#m3` | 1=USD, 0=PEN |
 | Monto | `#p1`, `#p2`, `#p3` | Monto del pago |
 | POS | `#poss1`, `#poss2`, `#poss3` | Terminal POS seleccionado |
-| Transacción POS | `#txn_pos_1`, `#txn_pos_2`, `#txn_pos_3` | ID de transacción vinculada |
+| Transacción POS | `#id_transaccion_pago1`, `#id_transaccion_pago2`, `#id_transaccion_pago3` | ID de transacción vinculada |
 
 ### Opciones de banco (igual en las 3 formas)
 
@@ -175,7 +176,7 @@ abrirModalCobro(slot)
 | `p1/p2/p3` | decimal | Monto 1/2/3 |
 | `banco1/banco2/banco3` | int | Banco 1/2/3 |
 | `pos1_id/pos2_id/pos3_id` | int | Terminal POS 1/2/3 |
-| `txn_pos_1/txn_pos_2/txn_pos_3` | int | ID transacción POS vinculada |
+| `id_transaccion_pago1/id_transaccion_pago2/id_transaccion_pago3` | int | ID transacción POS vinculada |
 
 ---
 
@@ -187,26 +188,25 @@ Cada INSERT/UPDATE en `recibos` también inserta en `appinmater_log.recibos` con
 
 ## Vinculación POS → Forma de pago (2026-04-16)
 
-Las columnas `txn_pos_1`, `txn_pos_2`, `txn_pos_3` (BIGINT NULL) fueron agregadas a `appinmater_modulo.recibos` para registrar qué transacción POS corresponde a cada forma de pago.
+Las columnas `id_transaccion_pago1`, `id_transaccion_pago2`, `id_transaccion_pago3` (BIGINT NULL) fueron agregadas a `appinmater_modulo.recibos` para registrar qué transacción POS corresponde a cada forma de pago.
 
-**SQL de migración:**
-```sql
-ALTER TABLE appinmater_modulo.recibos
-  ADD COLUMN txn_pos_1 BIGINT NULL,
-  ADD COLUMN txn_pos_2 BIGINT NULL,
-  ADD COLUMN txn_pos_3 BIGINT NULL;
-```
+> **Nota:** los documentos anteriores referenciaban estas columnas como `txn_pos_1/2/3` (nombre incorrecto). El nombre real en BD es `id_transaccion_pago1/2/3`, confirmado en el INSERT de `_database/pago.php` y la vista de BD.
 
 **Flujo de escritura (pago.php + _database/pago.php):**
-- `seleccionarTxnPOS(slot, id, monto, marca, ultimos4, tipoTarjeta, issuingBank, numeroCuotas, moneda, codigoAutorizacion)` setea `#txn_pos_{slot}` y todos los campos del slot al vincular o cobrar
-- El form envía `txn_pos_1/2/3` por POST
+
+- `seleccionarTxnPOS(slot, ...)` setea `#id_transaccion_pago{slot}` y todos los campos del slot al vincular o cobrar
+- El form envía `id_transaccion_pago1/2/3` por POST
 - El INSERT y el UPDATE en `_database/pago.php` guardan los valores en BD
 - Si no hay transacción POS → se guarda `NULL`
 
+> **Bug corregido (2026-04-16):** En el INSERT (`_database/pago.php` línea 104), la condición para `$txnPos1` checkeaba `$datos["p"]` (el monto del slot) en lugar de `$datos["id_transaccion_pago1"]`. Esto causaba que `id_transaccion_pago1` siempre se guardara como `NULL` en nuevos comprobantes, aunque el usuario hubiera vinculado una transacción. El UPDATE no tenía este bug. Fix: `!empty($datos["id_transaccion_pago1"])`.
+
 **Flujo de lectura (EMR.Financial-Management.Service):**
-```
+
+```text
 GET /microservicesFinancialManagement/comprobantes/legacy/{id}/{tip}/pagos-pos
 ```
+
 Retorna `forma_pago_1/2/3` con detalle de `transaccion_pos` o `null` si no aplica.
 
 Ver trace completo: [[05-TRACES/backend/pos-recibo-vinculacion]]
